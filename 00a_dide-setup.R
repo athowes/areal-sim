@@ -12,7 +12,7 @@ my_config <- didehpc::didehpc_config(
 )
 
 pkgsrc <- conan::conan_sources(
-  c("./bsae_0.2.5.tar.gz", "./INLA_20.07.12.tar.gz")
+  c("./bsae_0.2.6.tar.gz", "./INLA_20.07.12.tar.gz")
 )
 
 src <- c(
