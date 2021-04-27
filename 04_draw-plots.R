@@ -138,6 +138,12 @@ system("cd plots && lualatex compile_fig53.tex")
 
 # fig54 -------------------------------------------------------------------
 
+load("data/inputs/geometries.RData")
+
+l_grid <- bsae::best_average(centroid_distance(grid))
+l_ci <- bsae::best_average(centroid_distance(ci))
+l_tex <- bsae::best_average(centroid_distance(tex))
+
 tikz(file = "plots/fig54.tex", width = 6.5, height = 2.5)
 cowplot::plot_grid(
   lengthscale_plot(full_df_lengthscale, inf_model = "ik", geometry = "grid", best = l_grid, subtitle = "Grid") + theme_adam,
