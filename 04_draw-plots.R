@@ -122,7 +122,7 @@ system("cd plots && lualatex compile_fig51.tex")
 
 # fig52 -------------------------------------------------------------------
 
-tikz(file = "plots/fig52.tex", width = 6.5, height = 4)
+tikz(file = "plots/fig52.tex", width = 6.5, height = 5.5)
 boxplot(df_replicate_rho, metric = "crps_mean", y_lab = "Average CRPS", remove_constant = TRUE) + theme_adam
 dev.off()
 
