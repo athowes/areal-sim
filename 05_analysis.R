@@ -7,8 +7,8 @@ irregularity_effect <- df_rho %>%
          diff = crps - crps_min) %>%
   select(inf_model, diff)
 
-irregularity_effect %>% filter(inf_model == "Besag") # Besag versus best (FIK)
-irregularity_effect %>% filter(inf_model == "FCK")  # FCK versus best (FIK)
+irregularity_effect %>% filter(inf_model == "FCK") %>% mutate_if(is.numeric, round, 1)  # FCK versus best (FIK)
+irregularity_effect %>% filter(inf_model == "Besag") %>% mutate_if(is.numeric, round, 1) # Besag versus best (FIK)
 
 # How is the length-scale recovery?
 load("data/inputs/geometries.RData")
