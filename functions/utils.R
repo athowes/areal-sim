@@ -28,7 +28,7 @@ rename_df <- function(df) {
          sim_model = recode_factor(
            sim_model, 
            "iid" = "IID", 
-           "icar" = "ICAR", 
+           "icar" = "Besag", 
            "ik" = "IK"),
          inf_model = recode_factor(
            inf_model, 
