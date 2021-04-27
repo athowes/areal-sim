@@ -106,6 +106,12 @@ coverage_histogram <- function(full_df, g) {
 
 # Only sim_model = "ik" has a true length-scale
 lengthscale_plot <- function(df, inf_model, geometry, best = NA, subtitle = NA) {
+  
+  overall_mean <- df %>%
+    filter(sim_model == "ik", inf_model == !!inf_model, geometry == !!geometry) %>%
+    summarise(overall_mean = mean(mean)) %>%
+    as.numeric()
+  
   df %>%
     filter(sim_model == "ik", inf_model == !!inf_model, geometry == !!geometry) %>%
     select(mean, upper, lower) %>%
@@ -114,7 +120,8 @@ lengthscale_plot <- function(df, inf_model, geometry, best = NA, subtitle = NA) 
     geom_point(alpha = 0.5) + 
     geom_errorbar(aes(ymin = lower, ymax = upper), alpha = 0.5) +
     geom_hline(yintercept = 2.5, col = lightblue, size = 1.5) +
-    geom_hline(yintercept = best, col = lightgreen, size = 1.5) +
+    geom_hline(yintercept = overall_mean, col = lightgreen, size = 1.5) +
+    geom_hline(yintercept = best, col = "#E69F00", size = 1.5) +
     labs(x = "Simulation number", y = "Lengthscale", subtitle = subtitle) +
     theme(axis.text.x=element_blank(),
           axis.ticks.x=element_blank())
