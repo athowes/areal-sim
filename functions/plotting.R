@@ -47,6 +47,19 @@ dynamite_plot <- function(df, metric, title = NULL, y_lab = NULL, labs = FALSE, 
 # Boxplots
 boxplot <- function(df, metric, title = NULL, y_lab = NULL, labs = FALSE, remove_constant = FALSE) {
   
+  .calc_boxplot_stat <- function(x) {
+    coef <- 1.5
+    n <- sum(!is.na(x))
+    stats <- quantile(x, probs = c(0.0, 0.25, 0.5, 0.75, 1.0))
+    names(stats) <- c("ymin", "lower", "middle", "upper", "ymax")
+    iqr <- diff(stats[c(2, 4)])
+    outliers <- x < (stats[2] - coef * iqr) | x > (stats[4] + coef * iqr)
+    if (any(outliers)) {
+      stats[c(1, 5)] <- range(c(stats[2:4], x[!outliers]), na.rm = TRUE)
+    }
+    return(stats)
+  }
+  
   if(remove_constant){
     df <- df %>% filter(inf_model != "Constant")
   }
@@ -55,12 +68,11 @@ boxplot <- function(df, metric, title = NULL, y_lab = NULL, labs = FALSE, remove
     y_lab <- toupper(metric) 
   }
   
-  ggplot(df, aes(x = inf_model, y = .data[[metric]], fill = sim_model)) +
-    geom_boxplot() + 
+  ggplot(df, aes(x = inf_model, y = .data[[metric]])) +
+    stat_summary(fun.data = .calc_boxplot_stat, geom = "boxplot", width = 0.5, alpha = 0.9, show.legend = FALSE, fill = lightgrey) +
+    stat_summary(fun = "mean", geom = "point", position = position_dodge(width = 0.5), alpha = 0.7, show.legend = FALSE) +
     facet_grid(geometry ~ sim_model, scales = "free") +
     labs(x = "Inferential model", y = y_lab, title = title, fill = "Simulation model") +
-    guides(fill = labs) +
-    scale_fill_manual(values = cbpalette) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 }
 
