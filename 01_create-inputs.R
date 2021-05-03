@@ -9,6 +9,8 @@ geometry <- sf::st_geometry(ci)
 ci <- sf::st_sf(geometry)
 sf::st_crs(ci) <- NA
 
+# Texas data from https://gis-txdot.opendata.arcgis.com/datasets/texas-us-house-districts
+# Download > Shapefile > Unzip to texas/ folder
 geometry <- sf::st_geometry(sf::st_read("texas/U_S__House_District.shp"))
 tex <- sf::st_sf(geometry)
 sf::st_crs(tex) <- NA
@@ -16,7 +18,7 @@ sf::st_crs(tex) <- NA
 # Save geometries
 save(ci, grid, tex, file = "data/inputs/geometries.RData")
 
-# Save simulated data-sets
+# Create and save simulated data-sets
 sim_iid(grid, nsim)
 sim_icar(grid, nsim)
 sim_ik(grid, L = 100, nsim, l = 2.5)
