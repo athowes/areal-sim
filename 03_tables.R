@@ -1,5 +1,6 @@
 ctx_ver <- "19-04-2021"
 
+# All of the results corresponding to the above context version
 files <- list.files(
   path = paste0("data/results/", ctx_ver, "/"),
   recursive = TRUE

@@ -120,12 +120,12 @@ coverage_histogram <- function(full_df, g) {
 lengthscale_plot <- function(df, inf_model, geometry, best = NA, subtitle = NA) {
   
   overall_mean <- df %>%
-    filter(sim_model == "ik", inf_model == !!inf_model, geometry == !!geometry) %>%
+    filter(sim_model == "IK", inf_model == !!inf_model, geometry == !!geometry) %>%
     summarise(overall_mean = mean(mean)) %>%
     as.numeric()
   
   df %>%
-    filter(sim_model == "ik", inf_model == !!inf_model, geometry == !!geometry) %>%
+    filter(sim_model == "IK", inf_model == !!inf_model, geometry == !!geometry) %>%
     select(mean, upper, lower) %>%
     tibble::rownames_to_column(var = "id") %>%
     ggplot(aes(x = id, y = mean)) +

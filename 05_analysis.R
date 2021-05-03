@@ -7,34 +7,39 @@ irregularity_effect <- df_rho %>%
          diff = crps - crps_min) %>%
   select(inf_model, diff)
 
-irregularity_effect %>% filter(inf_model == "FCK") %>% mutate_if(is.numeric, round, 1)  # FCK versus best (FIK)
-irregularity_effect %>% filter(inf_model == "Besag") %>% mutate_if(is.numeric, round, 1) # Besag versus best (FIK)
+# FCK versus best (FIK)
+irregularity_effect %>% filter(inf_model == "FCK") %>% mutate_if(is.numeric, round, 1)
+
+# Besag versus best (FIK)
+irregularity_effect %>% filter(inf_model == "Besag") %>% mutate_if(is.numeric, round, 1)
 
 # How is the length-scale recovery?
 load("data/inputs/geometries.RData")
 
+# These are the values of the length-scale recovered by the best_average() function, without any data
 l_grid <- bsae::best_average(centroid_distance(grid))
 l_ci <- bsae::best_average(centroid_distance(ci))
 l_tex <- bsae::best_average(centroid_distance(tex))
 
-lengthscale_plot(full_df_lengthscale, inf_model = "ck", geometry = "grid", best = l_grid)
-lengthscale_plot(full_df_lengthscale, inf_model = "ck", geometry = "ci", best = l_ci)
-lengthscale_plot(full_df_lengthscale, inf_model = "ck", geometry = "tex", best = l_tex)
+# Truth in blue, mean of posterior means in green and fixed in yellow
+lengthscale_plot(full_df_lengthscale, inf_model = "CK", geometry = "Grid", best = l_grid)
+lengthscale_plot(full_df_lengthscale, inf_model = "CK", geometry = "Cote d'Ivoire", best = l_ci)
+lengthscale_plot(full_df_lengthscale, inf_model = "CK", geometry = "Texas", best = l_tex)
 
-lengthscale_plot(full_df_lengthscale, inf_model = "ik", geometry = "grid", best = l_grid)
-lengthscale_plot(full_df_lengthscale, inf_model = "ik", geometry = "ci", best = l_ci)
-lengthscale_plot(full_df_lengthscale, inf_model = "ik", geometry = "tex", best = l_tex)
+lengthscale_plot(full_df_lengthscale, inf_model = "IK", geometry = "Grid", best = l_grid)
+lengthscale_plot(full_df_lengthscale, inf_model = "IK", geometry = "Cote d'Ivoire", best = l_ci)
+lengthscale_plot(full_df_lengthscale, inf_model = "IK", geometry = "Texas", best = l_tex)
 
 # Average of the mean lengthscale 
 full_df_lengthscale %>%
-  filter(sim_model == "ik") %>%
+  filter(sim_model == "IK") %>%
   group_by(geometry, inf_model) %>%
   summarise(overall_mean = mean(mean)) %>%
   arrange(inf_model)
 
-# Lengthscale coverage
+# What's the coverage of the length-scale posteriors?
 full_df_lengthscale %>%
-  filter(sim_model == "ik") %>%
+  filter(sim_model == "IK") %>%
   mutate(in50 = between(quantile, 0.25, 0.75),
          in80 = between(quantile, 0.1, 0.9),
          in95 = between(quantile, 0.025, 0.975)) %>%

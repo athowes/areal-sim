@@ -34,8 +34,10 @@ rename_df <- function(df) {
            inf_model, 
            "constant" = "Constant", 
            "iid" = "IID", 
-           "icar" = "Besag", 
-           "bym" = "BYM2",
+           "icar" = "Besag",
+           "besag" = "Besag"
+           "bym2" = "BYM2",
+           "bym" = "BYM2"
            "fck" = "FCK", 
            "ck" = "CK", 
            "fik" = "FIK", 
