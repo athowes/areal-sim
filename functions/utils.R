@@ -42,3 +42,27 @@ rename_df <- function(df) {
            "ik" = "IK")
   )
 }
+
+extract_results <- function(variable) {
+  do.call("rbind", lapply(files, FUN = function(file) {
+    assess <- readRDS(file = paste0("data/results/", ctx_ver, "/", file))
+    if(purrr::is_empty(assess[[variable]])) {
+      return(NULL)
+    }
+    df <- assess[[variable]]
+    meta_data <- strsplit(file, '[/_.]')
+    df$geometry <- meta_data[[1]][1]
+    df$sim_model <- meta_data[[1]][2]
+    df$inf_model <- meta_data[[1]][3]
+    return(df)
+  })) %>%
+    rename_df()
+}
+
+group_mean_and_se <- function(df, group_variables) {
+  dots <- lapply(group_variables, as.symbol)
+  df %>%
+    select(-c(obs, mean, mode, lower, upper)) %>%
+    group_by_(.dots = dots) %>%
+    summarise(n = n(), across(mse:lds, list(mean = mean, se = ~ sd(.x) / sqrt(length(.x)))))
+}
