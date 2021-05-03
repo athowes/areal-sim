@@ -50,26 +50,8 @@ system("cd plots && lualatex compile_fig21.tex")
 
 # fig22 -------------------------------------------------------------------
 
-nb <- neighbours(zw) # Spatial neighbours object
-
-nb_sf <- spdep::nb2lines(nb, coords = sp::coordinates(as(zw, "Spatial"))) %>%
-  as("sf") %>%
-  st_set_crs(st_crs(zw))
-
-a <- ggplot(zw) +
-  geom_sf() +
-  theme_minimal() +
-  labs(subtitle = "Geography") + 
-  theme_void()
-
-b <- ggplot(zw) +
-  geom_sf(data = nb_sf) +
-  theme_minimal() +
-  labs(subtitle = "Graph") + 
-  theme_void()
-
 tikz(file = "plots/fig22.tex", width = 4.5, height = 2.5)
-cowplot::plot_grid(a, b, ncol = 2)
+plot_graph(mw, add_geography = TRUE)
 dev.off()
 
 system("cd plots && lualatex compile_fig22.tex")
