@@ -112,30 +112,22 @@ system("cd plots && lualatex compile_fig52.tex")
 
 # fig53 -------------------------------------------------------------------
 
-tikz(file = "plots/fig53.tex", width = 6.5, height = 4)
-boxplot(df_replicate_intercept, metric = "crps_mean", y_lab = "Average CRPS", remove_constant = TRUE) + theme_adam
-dev.off()
-
-system("cd plots && lualatex compile_fig53.tex")
-
-# fig54 -------------------------------------------------------------------
-
 load("data/inputs/geometries.RData")
 
 l_grid <- bsae::best_average(centroid_distance(grid))
 l_ci <- bsae::best_average(centroid_distance(ci))
 l_tex <- bsae::best_average(centroid_distance(tex))
 
-tikz(file = "plots/fig54.tex", width = 6.5, height = 2.5)
+tikz(file = "plots/fig53.tex", width = 6.5, height = 2.5)
 cowplot::plot_grid(
-  lengthscale_plot(full_df_lengthscale, inf_model = "ik", geometry = "grid", best = l_grid, subtitle = "Grid") + theme_adam,
-  lengthscale_plot(full_df_lengthscale, inf_model = "ik", geometry = "ci", best = l_ci, subtitle = "C\\^{o}te d'Ivoire") + theme_adam,
-  lengthscale_plot(full_df_lengthscale, inf_model = "ik", geometry = "tex", best = l_tex, subtitle = "Texas") + theme_adam,
+  lengthscale_plot(full_df_lengthscale, inf_model = "IK", geometry = "Grid", best = l_grid, subtitle = "Grid") + theme_adam,
+  lengthscale_plot(full_df_lengthscale, inf_model = "IK", geometry = "Cote d'Ivoire", best = l_ci, subtitle = "C\\^{o}te d'Ivoire") + theme_adam,
+  lengthscale_plot(full_df_lengthscale, inf_model = "IK", geometry = "Texas", best = l_tex, subtitle = "Texas") + theme_adam,
   ncol = 3
 )
 dev.off()
 
-system("cd plots && lualatex compile_fig54.tex")
+system("cd plots && lualatex compile_fig53.tex")
 
 # fig81 -------------------------------------------------------------------
 
