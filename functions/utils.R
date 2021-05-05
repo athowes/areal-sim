@@ -47,9 +47,9 @@ rename_df <- function(df) {
            "constant" = "Constant", 
            "iid" = "IID", 
            "icar" = "Besag",
-           "besag" = "Besag"
+           "besag" = "Besag",
            "bym2" = "BYM2",
-           "bym" = "BYM2"
+           "bym" = "BYM2",
            "fck" = "FCK", 
            "ck" = "CK", 
            "fik" = "FIK", 
