@@ -1,15 +1,24 @@
-# data.frame rows to list
+#' Convert the rows of a dataframe to a list.
+#' 
+#' @param df A dataframe.
 rows_to_list <- function(df) {
   x <- as.list((data.frame(t(df))))
   names(x) <- NULL
   return(x)
 }
 
-# with an id column
+#' Bind the rows of a list together, adding an `id` column.
+#' 
+#' @param list A list.
 list_to_df <- function(list){
   data.frame(dplyr::bind_rows(list, .id = "replicate"))  
 }
 
+#' Check that the directory you plan to save to exists before saving.
+#' 
+#' @param object An object to be saved.
+#' @param output_dir The output directory.
+#' @param file The name of the file to be saved to (without the preceeding `output_dir`).
 safe_saveRDS <- function(object, output_dir, file) {
   if (!dir.exists(output_dir)) {
     dir.create(output_dir, recursive = TRUE)
@@ -18,6 +27,9 @@ safe_saveRDS <- function(object, output_dir, file) {
   saveRDS(object, file = paste0(output_dir, "/", file, ".rds"))
 }
 
+#' A dictionary to convert from internal names to names used in the manuscript.
+#' 
+#' @param df A dataframe.
 rename_df <- function(df) {
   mutate(df,
          geometry = recode_factor(

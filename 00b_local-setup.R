@@ -4,7 +4,6 @@ library(ggplot2)
 library(dplyr)
 library(reshape2)
 library(viridis)
-library(ar.matrix) # Currently not using
 library(tikzDevice)
 library(cubature)
 library(magrittr)
@@ -15,6 +14,7 @@ library(purrr)
 
 sapply(list.files("functions/", full.names = TRUE), source)
 
+# Colours used in 04_draw-plots, mainly
 sf_lightgrey <- "#E6E6E6"
 lightgrey <- "#D3D3D3"
 

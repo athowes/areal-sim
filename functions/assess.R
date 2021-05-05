@@ -1,8 +1,4 @@
-# In the case that there is a lengthscale in the model, but no lengthscale in the DGP,
-# then forecast assessment versus a "truth" of lengthscale = 1 is meaningless
-
 assess_replicates <- function(data_list, fits_list) {
-
   rho_list <- Map(assess_marginals_rho, lapply(data_list, "[[", "rho"), fits_list)
   rho_df <- list_to_df(rho_list)
 
@@ -11,6 +7,7 @@ assess_replicates <- function(data_list, fits_list) {
     lengthscale_df <- list_to_df(lengthscale_list)
   }
   else {
+   # When lengthscale in model, but not in the DGP, then forecast assessment is without meaning
    lengthscale_df <- NULL 
   }
   
